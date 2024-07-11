@@ -25,6 +25,19 @@ public class BookShopTests extends BaseTest {
 				.getCartTotalPrice();
 		Assertions.assertThat(bookPrice).isEqualTo(cartTotalPrice);
 	}
-
+	@Test
+	@Description("Тест формирование заказа")
+	public void orderTest() {
+		mainPage.login("moonvel@mail.ru", "easyPass").bookStore();
+		bookStorePage.bookTitle();
+		cartPage
+				.addToCart()
+				.checkOut()
+				.continueCheckout()
+				.continueCheckout()
+				.fillCreditCardForm("4111111111111111",
+						"12", "2025", "123");
+		Assertions.assertThat(cartPage.getErrorText()).contains("attempting to charge");
+	}
 
 }

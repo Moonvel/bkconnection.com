@@ -1,6 +1,8 @@
+import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static com.codeborne.selenide.Selenide.open;
 
 import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -25,5 +27,10 @@ public class BaseTest {
 	@BeforeEach
 	public void beforeEach() {
 		open(BASE_URL);
+		mainPage.declineCookie();
+	}
+	@AfterEach
+	public void afterEach() {
+		closeWebDriver();
 	}
 }
