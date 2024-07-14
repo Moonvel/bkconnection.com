@@ -20,7 +20,9 @@ public class MainPage {
 		bookStore.click();
 	}
 	public void declineCookie() {
-		cookie.shouldBe(visible).click();
+		if (cookie.exists()) {
+			cookie.shouldBe(visible).click();
+		}
 	}
 	public MainPage login(String login, String password) {
 		loginButton.click();

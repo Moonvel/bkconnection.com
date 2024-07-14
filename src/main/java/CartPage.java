@@ -8,7 +8,7 @@ import com.codeborne.selenide.SelenideElement;
 public class CartPage {
 	private final SelenideElement checkOut = $x("//a[normalize-space(text())='Checkout']");
 	private final SelenideElement addToCart = $("button.cart-btn");
-	private final SelenideElement productTotalPrice = $("div.summary-table-overlay td[align]");
+	private final SelenideElement productTotalPrice = $("div.summary-table-overlay td");
 	private final SelenideElement continueCheckout = $("*.btn-primary.continue");
 	private final SelenideElement creditCardNumber = $("input#order_credit_card_number");
 	private final SelenideElement creditCardMonthExpire = $("input#order_cc_expiration_month");
