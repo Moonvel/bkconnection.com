@@ -16,6 +16,12 @@ public class MainPage {
 		search.sendKeys(query);
 		search.pressEnter();
 	}
+	/*
+	ToDO переименуй метод согласно назначению
+	не лепи код
+	- от полей лучше две строки отступить
+	- между методами одна пустая строка
+	 */
 	public void bookStore() {
 		bookStore.click();
 	}
