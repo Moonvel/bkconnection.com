@@ -1,3 +1,5 @@
+package pageObject;
+
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
@@ -13,22 +15,21 @@ public class MainPage {
 	private final SelenideElement loginInput = $("input#refinery_user_login");
 	private final SelenideElement passwordInput = $("input#refinery_user_password");
 	private final SelenideElement signIn = $("input[value='Sign In']");
+
+
 	public void search(String query) {
 		search.sendKeys(query);
 		search.pressEnter();
 	}
-	/*
-	ToDO переименуй метод согласно назначению
-	не лепи код
-	- от полей лучше две строки отступить
-	- между методами одна пустая строка
-	 */
-	public void bookStore() {
+
+	public void goToBookStore() {
 		bookStore.click();
 	}
+
 	public void declineCookie() {
 			cookie.shouldBe(visible, Duration.ofSeconds(10)).click();
 	}
+
 	public MainPage login(String login, String password) {
 		loginButton.click();
 		loginInput.sendKeys(login);
