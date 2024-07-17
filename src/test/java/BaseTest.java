@@ -21,8 +21,9 @@ public class BaseTest {
         bookStorePage = new BookStorePage();
         cartPage = new CartPage();
 
+        Configuration.pageLoadStrategy = "eager";
         Configuration.browser = "chrome";
-        Configuration.browserSize = "1920x1080";
+        Configuration.browserSize = "2560x1440";
     }
 
     /*

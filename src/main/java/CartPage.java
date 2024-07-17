@@ -1,13 +1,13 @@
-import com.codeborne.selenide.SelenideElement;
-
+import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 import static com.codeborne.selenide.Selenide.executeJavaScript;
 
+import com.codeborne.selenide.SelenideElement;
+
 public class CartPage {
     private final SelenideElement checkOut = $x("//a[normalize-space(text())='Checkout']");
-    private final SelenideElement addToCart = $("button.cart-btn");
     private final SelenideElement productTotalPrice = $("div.summary-table-overlay td");
     private final SelenideElement continueCheckout = $("*.btn-primary.continue");
     private final SelenideElement creditCardNumber = $("input#order_credit_card_number");
@@ -18,13 +18,11 @@ public class CartPage {
     private final SelenideElement errorText = $("p.error-text");
 
 
-    public CartPage addToCart() {
-        executeJavaScript("arguments[0].click();", addToCart);
-        return this;
-    }
-
     public CartPage checkOut() {
-        checkOut.click();
+        $("body.modal-open").shouldBe(visible);
+        if (checkOut.exists()) {
+            executeJavaScript("arguments[0].click();", checkOut);
+        }
         return this;
     }
 

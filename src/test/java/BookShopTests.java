@@ -1,5 +1,7 @@
+import com.codeborne.selenide.Configuration;
 import jdk.jfr.Description;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 public class BookShopTests extends BaseTest {
@@ -24,7 +26,6 @@ public class BookShopTests extends BaseTest {
          */
         Assertions.assertThat(searchPage.bookTitle.text()).contains(BOOK_TITLE);
     }
-
     /*
     ToDo не понял название и смысл теста - при чем тут корзина?
      */
@@ -34,8 +35,8 @@ public class BookShopTests extends BaseTest {
         mainPage.bookStore();
         String bookPrice = bookStorePage.bookTitle()
                 .getBookPrice();
-        String cartTotalPrice = cartPage.addToCart()
-                .checkOut()
+        bookStorePage.addToCart();
+        String cartTotalPrice = cartPage.checkOut()
                 .getCartTotalPrice();
         /* ToDo обычно статик импорт метода делают
         assertThat и саму проверку делают на разных строках
@@ -66,8 +67,8 @@ public class BookShopTests extends BaseTest {
         3) в классе делаем статический метод - getDefaultCard
         4) вызываем нужный метод в начале теста и кладем в объект - сразу видно тестовые данные, используемые в тесте
          */
-        cartPage.addToCart()
-                .checkOut()
+        bookStorePage.addToCart();
+        cartPage.checkOut()
                 .continueCheckout()
                 .continueCheckout()
                 .fillCreditCardForm("4111111111111111",

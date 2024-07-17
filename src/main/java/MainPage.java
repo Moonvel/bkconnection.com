@@ -3,6 +3,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 import com.codeborne.selenide.SelenideElement;
+import java.time.Duration;
 
 public class MainPage {
 	private final SelenideElement search = $("input#query");
@@ -26,9 +27,7 @@ public class MainPage {
 		bookStore.click();
 	}
 	public void declineCookie() {
-		if (cookie.exists()) {
-			cookie.shouldBe(visible).click();
-		}
+			cookie.shouldBe(visible, Duration.ofSeconds(10)).click();
 	}
 	public MainPage login(String login, String password) {
 		loginButton.click();
