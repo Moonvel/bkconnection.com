@@ -15,8 +15,7 @@ public class BookStorePage {
     public String getBookPrice() {
         return bookPrice.text();
     }
-    public BookStorePage addToCart() {
+    public void addToCart() {
         addToCart.click();
-        return this;
     }
 }

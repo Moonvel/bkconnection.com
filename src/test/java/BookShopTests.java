@@ -1,7 +1,5 @@
-import com.codeborne.selenide.Configuration;
 import jdk.jfr.Description;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 public class BookShopTests extends BaseTest {
