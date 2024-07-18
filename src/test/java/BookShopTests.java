@@ -3,6 +3,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import jdk.jfr.Description;
 import models.Card;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +15,14 @@ public class BookShopTests extends BaseTest {
     public void beforeEach() {
         open(properties.getProperty("baseUrl"));
         mainPage.declineCookie();
+    }
+
+    @Test
+    @Description("Тест авторизации")
+    public void authorizationTest() {
+        mainPage.login(userName, passWord);
+        Assertions.assertThat
+            (mainPage.memberOptionsButton().getText().contains("Member Options")).isTrue();
     }
 
     @Test
