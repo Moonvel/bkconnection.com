@@ -30,18 +30,13 @@ public class BaseTest {
 
         Configuration.pageLoadStrategy = "eager";
         Configuration.browser = "chrome";
-        Configuration.browserSize = "2560x1440";
+        Configuration.browserSize = "1920x1080";
 
         properties = new Properties();
         properties.load(new FileInputStream("src/test/resources/config.properties"));
         userName = properties.getProperty("userName");
         passWord = properties.getProperty("password");
     }
-
-    /*
-    ToDo в текущем контексте предлагаю все же перенести в класс с тестами
-     */
-
 
     @AfterEach
     public void afterEach() {

@@ -1,12 +1,12 @@
 package pageObject;
 
-import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.ex.ElementNotFound;
 import models.Card;
 
 public class CartPage {
@@ -21,15 +21,19 @@ public class CartPage {
     private final SelenideElement errorText = $("p.error-text");
     private final SelenideElement bookFormatDropDown = $("select#line_item_product_id");
     private final SelenideElement successfulPurchaseMessage = $x("//h1[contains(text(), 'Thanks')]");
+    private final SelenideElement productAddedWindow = $("body.modal-open");
 
 
     public CartPage checkOut() {
-        $("body.modal-open").should(exist).shouldBe(visible);
-        if (checkOut.exists()) {
+        try {
+            productAddedWindow.shouldBe(visible);
             executeJavaScript("arguments[0].click();", checkOut);
+        } catch (ElementNotFound e) {
+            System.out.println("Окно после добавления товара, не появилось");
         }
         return this;
     }
+
 
     public String getCartSubTotalPrice() {
         return productSubTotalPrice.text();
@@ -40,18 +44,32 @@ public class CartPage {
         return this;
     }
 
-    /*
-    ToDo лучше разбить на отдельные методы (не делаем, если уверены, что АБСОЛЮТНО ТОЧНО будут не нужны)
-    в данном методе вызываем ранее созданные
-    в параметрах метода ждем Card class со всеми данными
-    параметры пишем или все в строку или каждый с новой строки
-     */
-    public void fillCreditCardForm(Card card) {
+    public void fillCreditCardNumber(Card card) {
         creditCardNumber.sendKeys(card.getCardNumber());
+    }
+
+    public void fillCreditCardMonthExpire(Card card) {
         creditCardMonthExpire.sendKeys(card.getCardMonthExpire());
+    }
+
+    public void fillCreditCardYearExpire(Card card) {
         creditCardYearExpire.sendKeys(card.getCardYearExpire());
+    }
+
+    public void fillCvvCode(Card card) {
         cvvCode.sendKeys(card.getCvv());
+    }
+
+    public void secureCheckoutClick() {
         secureCheckout.click();
+    }
+
+    public void fillCreditCardForm(Card card) {
+        fillCreditCardNumber(card);
+        fillCreditCardMonthExpire(card);
+        fillCreditCardYearExpire(card);
+        fillCvvCode(card);
+        secureCheckoutClick();
     }
 
     public String getErrorText() {

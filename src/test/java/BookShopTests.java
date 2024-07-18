@@ -55,6 +55,7 @@ public class BookShopTests extends BaseTest {
             .continueCheckout()
             .fillCreditCardForm(creditCard);
         assertThat
-            (cartPage.getSuccessfulPurchaseMessage()).contains("Thanks for Buying");
+            (cartPage.getErrorText().contains("attempting to charge")).as(
+            "Сайт пропустил несуществующую карту").isTrue();
     }
 }
