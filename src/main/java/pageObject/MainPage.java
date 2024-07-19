@@ -12,6 +12,7 @@ public class MainPage {
 	private final SelenideElement bookStore = $("li#bk_store");
 	private final SelenideElement cookie = $("a#hs-eu-decline-button");
 	private final SelenideElement loginButton = $x("//a[normalize-space(text())='Login']");
+	private final SelenideElement	cartButton = $("ul.navbar-right a[href='/cart']");
 	private final SelenideElement memberOptionsButton = $x("//a[normalize-space(text())='Member Options']");
 	private final SelenideElement loginInput = $("input#refinery_user_login");
 	private final SelenideElement passwordInput = $("input#refinery_user_password");
@@ -41,5 +42,10 @@ public class MainPage {
 
 	public SelenideElement memberOptionsButton() {
 		return memberOptionsButton;
+	}
+
+	public CartPage cartButtonClick() {
+		cartButton.click();
+		return new CartPage();
 	}
 }

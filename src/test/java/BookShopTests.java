@@ -5,6 +5,7 @@ import jdk.jfr.Description;
 import models.Card;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 public class BookShopTests extends BaseTest {
@@ -18,6 +19,7 @@ public class BookShopTests extends BaseTest {
     }
 
     @Test
+    @Tag("smoke")
     @Description("Тест авторизации")
     public void authorizationTest() {
         mainPage.login(userName, passWord);
@@ -41,7 +43,7 @@ public class BookShopTests extends BaseTest {
         String bookPrice = bookStorePage
             .bookTitleClick()
             .getBookPrice();
-        bookStorePage.addToCart();
+        bookStorePage.addToCartOnBookTitlePage();
         String cartSubTotalPrice = cartPage
             .checkOut()
             .getCartSubTotalPrice();
@@ -56,7 +58,7 @@ public class BookShopTests extends BaseTest {
         mainPage.login(userName, passWord)
             .goToBookStore();
         bookStorePage.bookTitleClick()
-            .addToCart();
+            .addToCartOnBookTitlePage();
         cartPage
             .checkOut()
             .chooseBookFormat("PDF eBook")
@@ -64,7 +66,26 @@ public class BookShopTests extends BaseTest {
             .continueCheckout()
             .fillCreditCardForm(creditCard);
         assertThat
-            (cartPage.getErrorText().contains("attempting to charge")).as(
+            (cartPage.getSuccessfulPurchaseMessage().contains("Thanks")).as(
             "Сайт пропустил несуществующую карту").isTrue();
+    }
+
+    @Test
+    @Description("Добавление нескольких книг одного названия, проверка корректности добавления книг по общей стоимости корзины")
+    public void orderingSeveralIdenticalBooksTest() {
+        int itemsQuantity = 3;
+        mainPage.goToBookStore();
+        double bookPrice = Double.parseDouble(bookStorePage
+            .addToCartOnBookStorePage()
+            .continueShopping()
+            .bookTitleClick()
+            .getBookPrice());
+        mainPage
+            .cartButtonClick()
+            .setItemsQuantity(itemsQuantity);
+        double cartSubTotalPrice = Double.parseDouble(cartPage.getCartSubTotalPrice());
+        Assertions.assertThat
+            (bookPrice * itemsQuantity).isCloseTo(cartSubTotalPrice, Assertions.offset(0.001d));
+        System.out.println();
     }
 }

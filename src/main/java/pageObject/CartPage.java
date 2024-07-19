@@ -8,6 +8,7 @@ import static com.codeborne.selenide.Selenide.executeJavaScript;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.ex.ElementNotFound;
 import models.Card;
+import org.openqa.selenium.Keys;
 
 public class CartPage {
     private final SelenideElement checkOut = $x("//a[normalize-space(text())='Checkout']");
@@ -22,6 +23,7 @@ public class CartPage {
     private final SelenideElement bookFormatDropDown = $("select#line_item_product_id");
     private final SelenideElement successfulPurchaseMessage = $x("//h1[contains(text(), 'Thanks')]");
     private final SelenideElement productAddedWindow = $("body.modal-open");
+    private final SelenideElement itemsQuantity = $("input[name='line_item[qty]']");
 
 
     public CartPage checkOut() {
@@ -36,7 +38,7 @@ public class CartPage {
 
 
     public String getCartSubTotalPrice() {
-        return productSubTotalPrice.text();
+        return productSubTotalPrice.text().trim().substring(1);
     }
 
     public CartPage continueCheckout() {
@@ -86,4 +88,10 @@ public class CartPage {
         bookFormatDropDown.selectOptionContainingText(format);
         return this;
     }
+    public CartPage setItemsQuantity(int quantity) {
+        itemsQuantity.sendKeys(Keys.BACK_SPACE, String.valueOf(quantity));
+        itemsQuantity.pressEnter();
+        return this;
+    }
+
 }
