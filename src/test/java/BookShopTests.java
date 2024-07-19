@@ -1,6 +1,7 @@
 import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.codeborne.selenide.ElementsCollection;
 import jdk.jfr.Description;
 import models.Card;
 import org.assertj.core.api.Assertions;
@@ -87,5 +88,23 @@ public class BookShopTests extends BaseTest {
         Assertions.assertThat
             (bookPrice * itemsQuantity).isCloseTo(cartSubTotalPrice, Assertions.offset(0.001d));
         System.out.println();
+    }
+
+    @Test
+    @Description("Добавление указанного количества разных книг, сравнение ожидаемого количества книг и реального количества книг в корзине")
+    public void orderingSeveralDifferentBooksTest() {
+        long expectedBooksCount = 4;
+        mainPage.goToBookStore();
+        ElementsCollection titles = bookStorePage.getAddToCartElements();
+        titles.stream()
+            .limit(expectedBooksCount)
+            .forEach(element -> {
+                element.click();
+                cartPage.continueShopping();
+            });
+        long booksCount = mainPage
+            .cartButtonClick()
+            .bookCoverArts().stream().count();
+        Assertions.assertThat(expectedBooksCount).isEqualTo(booksCount);
     }
 }

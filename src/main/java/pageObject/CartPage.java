@@ -2,15 +2,19 @@ package pageObject;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.$x;
 import static com.codeborne.selenide.Selenide.executeJavaScript;
 
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.ex.ElementNotFound;
 import models.Card;
 import org.openqa.selenium.Keys;
 
 public class CartPage {
+    MainPage mainPage = new MainPage();
     private final SelenideElement checkOut = $x("//a[normalize-space(text())='Checkout']");
     private final SelenideElement productSubTotalPrice = $("div.summary-table-overlay td");
     private final SelenideElement continueCheckout = $("*.btn-primary.continue");
@@ -24,6 +28,8 @@ public class CartPage {
     private final SelenideElement successfulPurchaseMessage = $x("//h1[contains(text(), 'Thanks')]");
     private final SelenideElement productAddedWindow = $("body.modal-open");
     private final SelenideElement itemsQuantity = $("input[name='line_item[qty]']");
+    private final SelenideElement continueShopping = $x("//a[text()='Continue Shopping']");
+    private final ElementsCollection bookCoverArts = $$("img.book-coverart");
 
 
     public CartPage checkOut() {
@@ -36,6 +42,16 @@ public class CartPage {
         return this;
     }
 
+    public CartPage continueShopping() {
+        try {
+            productAddedWindow.shouldBe(visible);
+            executeJavaScript("arguments[0].click();", continueShopping);
+        } catch (ElementNotFound e) {
+            Selenide.back();
+            System.out.println("Окно после добавления товара, не появилось, производится переход на предыдущую страницу");
+        }
+        return this;
+    }
 
     public String getCartSubTotalPrice() {
         return productSubTotalPrice.text().trim().substring(1);
@@ -93,5 +109,10 @@ public class CartPage {
         itemsQuantity.pressEnter();
         return this;
     }
+
+    public ElementsCollection bookCoverArts() {
+        return bookCoverArts;
+    }
+
 
 }
