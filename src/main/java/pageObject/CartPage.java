@@ -110,7 +110,7 @@ public class CartPage {
         return this;
     }
 
-    public ElementsCollection bookCoverArts() {
+    public ElementsCollection getBookCoverArts() {
         return bookCoverArts;
     }
 

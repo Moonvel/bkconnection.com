@@ -104,7 +104,7 @@ public class BookShopTests extends BaseTest {
             });
         long booksCount = mainPage
             .cartButtonClick()
-            .bookCoverArts().stream().count();
+            .getBookCoverArts().stream().count();
         Assertions.assertThat(expectedBooksCount).isEqualTo(booksCount);
     }
 }
